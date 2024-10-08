@@ -1,0 +1,30 @@
+import java.util.Scanner;
+
+public class FrequencySubstitutionCipher {
+    public static void main(String[] args) {
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        String frequentLetters = "etaoinshrdlcumwfgypbvkjxqz";
+        // https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a message to cipher: ");
+        String message = scanner.nextLine();
+
+        String cipherText = ""; // Nathan
+        for (int i = 0; i < message.length();  i++) {
+            char c = message.charAt(i);
+            if (Character.isLetter(c)) {
+                int position = alphabet.indexOf(Character.toLowerCase(c));
+                char newLetter = frequentLetters.charAt(position);
+                if (Character.isUpperCase(c)) {
+                    newLetter = Character.toUpperCase(newLetter);
+                }
+                cipherText += newLetter;
+            } else {
+                cipherText += c;
+            }
+        }
+
+        System.out.println("Encrypted message: " + cipherText);
+    }
+}
