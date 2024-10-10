@@ -4,14 +4,23 @@ public class FrequencySubstitutionCipher {
     public static void main(String[] args) {
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String frequentLetters = "etaoinshrdlcumwfgypbvkjxqz";
-        // https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html
-
+        
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a message to cipher: ");
         String message = scanner.nextLine();
 
-        String cipherText = ""; // Nathan
-        for (int i = 0; i < message.length();  i++) {
+        String cipherText = encrypt(message, alphabet, frequentLetters);
+        System.out.println("Encrypted message: " + cipherText);
+
+        System.out.print("Enter a message to decipher: ");
+        String encryptedMessage = scanner.nextLine();
+        String decryptedText = decrypt(encryptedMessage, alphabet, frequentLetters);
+        System.out.println("Decrypted message: " + decryptedText);
+    }
+
+    public static String encrypt(String message, String alphabet, String frequentLetters) {
+        StringBuilder cipherText = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
             char c = message.charAt(i);
             if (Character.isLetter(c)) {
                 int position = alphabet.indexOf(Character.toLowerCase(c));
@@ -19,12 +28,29 @@ public class FrequencySubstitutionCipher {
                 if (Character.isUpperCase(c)) {
                     newLetter = Character.toUpperCase(newLetter);
                 }
-                cipherText += newLetter;
+                cipherText.append(newLetter);
             } else {
-                cipherText += c;
+                cipherText.append(c);
             }
         }
+        return cipherText.toString();
+    }
 
-        System.out.println("Encrypted message: " + cipherText);
+    public static String decrypt(String message, String alphabet, String frequentLetters) {
+        StringBuilder plainText = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if (Character.isLetter(c)) {
+                int position = frequentLetters.indexOf(Character.toLowerCase(c));
+                char newLetter = alphabet.charAt(position);
+                if (Character.isUpperCase(c)) {
+                    newLetter = Character.toUpperCase(newLetter);
+                }
+                plainText.append(newLetter);
+            } else {
+                plainText.append(c);
+            }
+        }
+        return plainText.toString();
     }
 }
